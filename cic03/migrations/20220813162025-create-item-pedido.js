@@ -6,24 +6,23 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.INTEGER,
-        references: {
+        references:{
           model: 'pedidos',
           key: 'id'
         },
-        onDelete: 'CASCADE',
-        ONuPDATE: 'CASCADE'
+        OnUpdate:'CASCADE',
+        OnDelete:'CASCADE'
       },
       ServicoId: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.INTEGER,
-        references: {
-          model: 'servicos',
+        references:{
+          model: 'pedidos',
           key: 'id'
         },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-
+        OnUpdate:'CASCADE',
+        OnDelete:'CASCADE'
       },
       quantidade: {
         type: Sequelize.INTEGER

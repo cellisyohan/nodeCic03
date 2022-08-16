@@ -1,6 +1,6 @@
 'use strict';
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  up : async (queryInterface, Sequelize)=>{
     await queryInterface.createTable('Pedidos', {
       id: {
         allowNull: false,
@@ -8,22 +8,22 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      dataPedido: {
+      data: {
         type: Sequelize.STRING
+      },
+      ClienteId:{
+        type:Sequelize.INTEGER,
+        allowNull: false,
+        references:{
+          model: 'clientes',
+          key: 'id'
+        },
+        OnUpdate:'CASCADE',
+        OnDelete:'CASCADE'
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      ClienteId:{
-        allowNull: false,
-        type:Sequelize.INTEGER,
-        references: {
-          model:'clientes',
-          key: 'id'
-        },
-        onDelete: 'CASCADE',
-        onUPdate: 'CASCADE'
       },
       updatedAt: {
         allowNull: false,
@@ -31,7 +31,7 @@ module.exports = {
       }
     });
   },
-  async down(queryInterface, Sequelize) {
+  down : async  (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Pedidos');
   }
 };

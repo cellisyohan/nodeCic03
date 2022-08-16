@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": null,
-    "database": "bdcic03",
+    "database": "bdcicl03",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
