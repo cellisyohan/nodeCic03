@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const {Sequelize} = require('./models');
 const models=require('./models');
+const servico = require('./models/servico');
 
 const app=express();
 app.use(cors());
@@ -62,6 +63,30 @@ app.post('/cliente/:id/pedido', async(req,res)=>{
         });
     });
 });
+
+//inserir serviços
+app.post('/servico', async(req,res)=>{
+    const ped = {
+        data:req.body.data,
+        descricao:req.body.descricao,
+        ClienteId:req.params.id,
+    }
+    await servico.create(ped)
+    .then(servcli=>{
+        return res.json({
+            error:false,
+            message:"serviço criado ",
+            servcli
+        });
+    }).catch(erro=>{
+        return res.status(400).json({
+            error:true,
+            message:" problema na conexão"
+        });
+    });
+});
+
+
 
 //listar todos os clientes
 
@@ -135,19 +160,20 @@ app.get('/pedido/:id', async(req,res)=>{
 // fazer alteração no pedido
 
 app.put('/pedido/:id', async(req,res)=>{
-    const pedi={
+    const ped={
         id: req.params.id,
         ClienteId: req.body.ClienteId,
         data: req.body.data
-    }
+    };
     if(! await cliente.findByPk(req.body.ClienteId)){
         return res.status(400).json({
             error: true,
             message: "Cliente não existe."
         }); 
     };
-    await pedido.update(pedi,{
-        where: Sequelize.and({ClienteId : req.body.ClienteId})
+    await pedido.update(ped,{
+        where: Sequelize.and({ClienteId : req.body.ClienteId},
+            {id:req.params.id})// essa linha faltava por isso não conseguia alterar
     }).then(umped=>{
         return res.json({
             error:false,
@@ -161,3 +187,20 @@ app.put('/pedido/:id', async(req,res)=>{
         });
     });
 });
+
+//excluir cliente
+app.delete('/excluir-cliente/:id', async(req,res)=>{
+    await cliente.destroy({
+        where : {id:req.params.id}
+    }).then(function(){
+        return res.json({
+            error:false,
+            message :"Cliente foi excluido!",
+        });
+      }).catch(erro=>{
+        return res.status(400).json({
+            error:true,
+            message:" problema na conexão com a API."
+        });
+    });
+})

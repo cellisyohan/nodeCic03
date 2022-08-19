@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       nome: {
         type: Sequelize.STRING
@@ -14,6 +14,16 @@ module.exports = {
       nascimento: {
         type: Sequelize.DATEONLY
       },
+      // PedidoId:{
+      //   type:Sequelize.INTEGER,
+      //   allowNull: false,
+      //   references:{
+      //     model: 'pedidos',
+      //     key: 'id'
+      //   },
+      //   OnUpdate:'CASCADE',
+      //   OnDelete:'CASCADE'
+      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
